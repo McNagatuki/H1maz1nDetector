@@ -1,5 +1,6 @@
 package net.kunmc.lab.h1maz1ndetector;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -39,8 +40,14 @@ public class DetectTask extends BukkitRunnable {
                 continue;
             }
 
+            // if player is in vehicle but his/her face has been moved
+            if (player.isInsideVehicle() & curPoint.isFaceMoved(lastPoint)) {
+                plugin.playerData.put(playerName, curPoint);
+                continue;
+            }
+
             // if player has been moved
-            if (curPoint.isMoved(lastPoint)) {
+            if (!player.isInsideVehicle() & curPoint.isMoved(lastPoint)) {
                 plugin.playerData.put(playerName, curPoint);
                 continue;
             }
